@@ -18,18 +18,18 @@ const Pregunta = ({
   //submit para definir el presupuesto
   const agregarPresupuesto = e => {
     e.preventDefalt()
-  }
-  //Validar
-  if (cantidad < 1 || isNaN(cantidad)) {
-    guardarError(true)
-    return
-  }
+    //Validar
+    if (cantidad < 1 || isNaN(cantidad)) {
+      guardarError(true)
+      return
+    }
 
-  //si se pasa la validacion
-  guardarError(false)
-  guardarPresupuesto(cantidad)
-  guardarRestante(cantidad)
-  actualizarPregunta(false)
+    //si se pasa la validacion
+    guardarError(false)
+    guardarPresupuesto(cantidad)
+    guardarRestante(cantidad)
+    actualizarPregunta(false)
+  }
 
   return (
     <Fragment>
