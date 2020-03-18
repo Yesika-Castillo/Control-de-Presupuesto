@@ -1,12 +1,45 @@
 import React, { useState } from 'react'
+import Error from './Error'
+import Shortid from 'shortid'
 
-const Formulario = () => {
+const Formulario = ({ agregarNuevoGasto }) => {
   const [nombre, guardarNombre] = useState('')
   const [cantidad, guardarCantidad] = useState(0)
+  const [error, guardarError] = useState(false)
+
+  //cuando el iusuario agrega un gasto
+  const agregarGasto = e => {
+    e.preventDafault()
+
+    //validad
+    if (cantidad < 1 || isNaN(cantidad) || nombre.trim() === '') {
+      guardarError(true)
+      return
+    }
+    guardarError(false)
+
+    //contruir el gasto
+    const gasto = {
+      nombre,
+      cantidad,
+      id: Shortid.generate()
+    }
+    console.logo(gasto)
+
+    //pasar el gasto al componente principal
+    agregarNuevoGasto(gasto)
+
+    //resetearel form
+    guardarNombre('')
+    guardarCantidad([0])
+  }
 
   return (
-    <form>
+    <form onSubmit={agregarGasto}>
       <h2>Agrega tus castos aqui</h2>
+      {error ? (
+        <Error mesnsaje="ambos campos son obligatorios o presupuesto incorrecto" />
+      ) : null}
 
       <div className="campo">
         <label>Nombre del gasto</label>
@@ -14,7 +47,7 @@ const Formulario = () => {
           type="text"
           className="u-full-width"
           placeholder="Ej. Transporte"
-          value="nombre"
+          value={nombre}
           onChange={e => guardarNombre(e.target.value)}
         />
       </div>
@@ -25,7 +58,7 @@ const Formulario = () => {
           className="u-full-width"
           placeholder="Ej. 100.000"
           value={cantidad}
-          onChange={e => guardarCantidad(parseInt(e.target.value))}
+          onChange={e => guardarCantidad(parseInt(e.target.value, 10))}
         />
       </div>
       <input

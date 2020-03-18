@@ -12,12 +12,12 @@ const Pregunta = ({
 
   //funcion que lee el presupuesto
   const definirPresupuesto = e => {
-    guardarCantidad(parseInt(e.terget.value, 10))
+    guardarCantidad(parseInt(e.target.value, 10))
   }
 
   //submit para definir el presupuesto
   const agregarPresupuesto = e => {
-    e.preventDefalt()
+    e.preventDefault()
     //Validar
     if (cantidad < 1 || isNaN(cantidad)) {
       guardarError(true)
