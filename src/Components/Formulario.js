@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
-import Error from './Error'
+import PropTypes from 'prop-types'
 import Shortid from 'shortid'
+import Error from './Error'
+import Gasto from './Gasto'
 
-const Formulario = ({ agregarNuevoGasto }) => {
+const Formulario = ({ guardarGasto, guardarCrearGasto }) => {
   const [nombre, guardarNombre] = useState('')
   const [cantidad, guardarCantidad] = useState(0)
   const [error, guardarError] = useState(false)
 
   //cuando el iusuario agrega un gasto
   const agregarGasto = e => {
-    e.preventDafault()
+    // e.preventDafault()
+    e.preventDefault()
 
     //validad
     if (cantidad < 1 || isNaN(cantidad) || nombre.trim() === '') {
@@ -24,10 +27,10 @@ const Formulario = ({ agregarNuevoGasto }) => {
       cantidad,
       id: Shortid.generate()
     }
-    console.logo(gasto)
 
     //pasar el gasto al componente principal
-    agregarNuevoGasto(gasto)
+    guardarGasto(gasto)
+    guardarCrearGasto(true)
 
     //resetearel form
     guardarNombre('')
@@ -36,7 +39,7 @@ const Formulario = ({ agregarNuevoGasto }) => {
 
   return (
     <form onSubmit={agregarGasto}>
-      <h2>Agrega tus castos aqui</h2>
+      <h2>Agrega tus gastos aqui</h2>
       {error ? (
         <Error mesnsaje="ambos campos son obligatorios o presupuesto incorrecto" />
       ) : null}
@@ -52,11 +55,11 @@ const Formulario = ({ agregarNuevoGasto }) => {
         />
       </div>
       <div className="campo">
-        <label>Cantidad Gasto</label>
+        <label>Cantidad del Gasto</label>
         <input
           type="number"
           className="u-full-width"
-          placeholder="Ej. 100.000"
+          placeholder="Ej. 300"
           value={cantidad}
           onChange={e => guardarCantidad(parseInt(e.target.value, 10))}
         />
@@ -69,6 +72,10 @@ const Formulario = ({ agregarNuevoGasto }) => {
       />
     </form>
   )
+}
+Formulario.propTypes = {
+  guardarGasto: PropTypes.func.isRequired,
+  guardarCrearGasto: PropTypes.func.isRequired
 }
 
 export default Formulario
